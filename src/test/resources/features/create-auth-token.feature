@@ -1,3 +1,4 @@
+
 @create-auth-token @regression
 Feature: Auth Token Creation
   In order to securely access the PUT and DELETE /booking endpoints,

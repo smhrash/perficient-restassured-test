@@ -45,22 +45,47 @@ public class Stepdefs {
     public void iSendARequestUsingMethod(String param, String method) {
         PathParam pathParam = PathParam.valueOf(param);
         responseSpecification = new ResponseSpecBuilder().build();
-        if (method.equals("POST") && param.equals("CREATE_TOKEN")) {
-            response = requestSpecification.when().post(pathParam.getParam());
-        } else if (method.equals("POST") && param.equals("CREATE_BOOKING")) {
-            response = requestSpecification.when().post(pathParam.getParam());
-        } else if (method.equals("GET") && param.equals("GET_BOOKINGS")) {
-            response = requestSpecification.when().get(pathParam.getParam());
-        } else if (method.equals("GET") && param.equals("GET_BOOKING")) {
-            response = requestSpecification.when().get(pathParam.getParam().concat((bookingid)));
-        } else if (method.equals("DELETE") && param.equals("DELETE_BOOKING")) {
-            response = requestSpecification.when().delete(pathParam.getParam().concat((bookingid)));
-        } else if (method.equals("PUT") && param.equals("UPDATE_BOOKING")) {
-            response = requestSpecification.when().put(pathParam.getParam().concat((bookingid)));
-        } else if (method.equals("PATCH") && param.equals("PATCH_BOOKING")) {
-            response = requestSpecification.when().patch(pathParam.getParam().concat((bookingid)));
-        } else if (method.equals("GET") && param.equals("HEALTH_CHECK")) {
-            response = requestSpecification.when().get(pathParam.getParam());
+        String endpoint = pathParam.getParam();
+
+        switch (method) {
+            case "POST":
+                switch (param) {
+                    case "CREATE_TOKEN":
+                    case "CREATE_BOOKING":
+                        response = requestSpecification.when().post(endpoint);
+                        break;
+                }
+                break;
+
+            case "GET":
+                switch (param) {
+                    case "GET_BOOKINGS":
+                    case "HEALTH_CHECK":
+                        response = requestSpecification.when().get(endpoint);
+                        break;
+                    case "GET_BOOKING":
+                        response = requestSpecification.when().get(endpoint.concat(bookingid));
+                        break;
+                }
+                break;
+
+            case "DELETE":
+                if ("DELETE_BOOKING".equals(param)) {
+                    response = requestSpecification.when().delete(endpoint.concat(bookingid));
+                }
+                break;
+
+            case "PUT":
+                if ("UPDATE_BOOKING".equals(param)) {
+                    response = requestSpecification.when().put(endpoint.concat(bookingid));
+                }
+                break;
+
+            case "PATCH":
+                if ("PATCH_BOOKING".equals(param)) {
+                    response = requestSpecification.when().patch(endpoint.concat(bookingid));
+                }
+                break;
         }
     }
 

@@ -1,5 +1,8 @@
 package com.perficient.sarker.constants;
 
+import lombok.Getter;
+
+@Getter
 public enum PathParam {
     CREATE_TOKEN("/auth"),
     CREATE_BOOKING("/booking"),
@@ -16,7 +19,4 @@ public enum PathParam {
         this.param = param;
     }
 
-    public String getParam() {
-        return param;
-    }
 }
